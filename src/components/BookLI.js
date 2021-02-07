@@ -1,34 +1,37 @@
-class BookLI extends React.Component {
-    constructor( books){
-        super(books);
-        books.forEach(x=>{
-           
-            x.image =`url("${x.imageLinks.thumbnail}}")` ;
-           x.category = x.shelf;
-           x.author = x.authors[0];
-           for (var i =1; i < x.authors.length; i++){
-             x.author += ","+x.authors[i];
-           }});
-  
+import React from 'react'
+
+
+export class BookLI extends React.Component {
+    constructor( books  ){
+        super(books);      
+        alert('books is '  + (books && books.length)  )
     }
     render() {
+        return <div>
+            {this.books}
+            <div style={{"color":'green'}}> asfdasdfdsf</div>
+            asdfadfdf
+            {this.books && this.books.map(x=><span>{x.title}</span>)}
+            
+            </div>
         return <div className="bookshelf-books">
             <ol className="books-grid">
-                {this.books.map(x =>
+                {this.books && this.books.length} is length
+                {this.books && this.books.map(x =>
                     <li>
                         <div className="book">
                             <div className="book-top">
-                                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: x.image }}>
+                                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url("${x.imageLinks && x.imageLinks.thumbnail}}")` }}>
                                 </div>
                                 <div className="book-shelf-changer">
                                     <select onChange={(evt) => {
-                                        const val = evt.target.value;
-                                        var category = val.split('|');
-                                        const title = category[1];
-                                        category = category[0];
-                                        this.state.books.filter(x => x.title == title)[0].category = category;
+                                        // const val = evt.target.value;
+                                        // var shelf = val.split('|');
+                                        // const title = shelf[1];
+                                        // shelf = shelf[0];
+                                        // this.state.books.filter(x => x.title == title)[0].shelf = shelf;
 
-                                        this.setState({ books: this.state.books, showSearchPage: this.state.showSearchPage })
+                                      //  this.setState({ books: this.state.books, searchbooks: this.books, showSearchPage: this.state.showSearchPage })
 
                                     }
                                     }>
@@ -41,7 +44,7 @@ class BookLI extends React.Component {
                                 </div>
                             </div>
                             <div className="book-title">{x.title} </div>
-                            <div className="book-authors">{x.author}</div>
+                            <div className="book-authors">{x.authors.reduce((a,b)=>a+','+b)}</div>
                         </div>
                     </li>
 
@@ -55,3 +58,5 @@ class BookLI extends React.Component {
 
     }
 }
+
+ 

@@ -1,5 +1,6 @@
 import React from 'react'
  import * as BooksAPI from './BooksAPI'
+ import {BookLI} from './components/BookLI';
 import './App.css'
 import {useState} from 'react';
 class BooksApp extends React.Component {
@@ -15,87 +16,102 @@ class BooksApp extends React.Component {
       {"image": 'url("https://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")', 
       "title":'To Kill a Mockingbird',
       "author":'Haper Lee'  ,
-      "category":'currentlyReading'
+      "shelf":'currentlyReading'
       },
       {"image": 'url("https://books.google.com/books/content?id=yDtCuFHXbAYC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72RRiTR6U5OUg3IY_LpHTL2NztVWAuZYNFE8dUuC0VlYabeyegLzpAnDPeWxE6RHi0C2ehrR9Gv20LH2dtjpbcUcs8YnH5VCCAH0Y2ICaKOTvrZTCObQbsfp4UbDqQyGISCZfGN&source=gbs_api")', 
       "title":'Ender\'s Game',
       "author":'Orson Scott Card'  ,
-      "category":'currentlyReading'
+      "shelf":'currentlyReading'
       },
       {"image": 'url("https://books.google.com/books/content?id=uu1mC6zWNTwC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73pGHfBNSsJG9Y8kRBpmLUft9O4BfItHioHolWNKOdLavw-SLcXADy3CPAfJ0_qMb18RmCa7Ds1cTdpM3dxAGJs8zfCfm8c6ggBIjzKT7XR5FIB53HHOhnsT7a0Cc-PpneWq9zX&source=gbs_api")', 
       "title":'1776',
       "author":'David McCullough'  ,
-      "category":'wantToRead'
+      "shelf":'wantToRead'
       },
       {"image": 'url("http://books.google.com/books/content?id=wrOQLV6xB-wC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72G3gA5A-Ka8XjOZGDFLAoUeMQBqZ9y-LCspZ2dzJTugcOcJ4C7FP0tDA8s1h9f480ISXuvYhA_ZpdvRArUL-mZyD4WW7CHyEqHYq9D3kGnrZCNiqxSRhry8TiFDCMWP61ujflB&source=gbs_api")', 
       "title":'Harry Potter and the Sorcerer\'s Stone',
       "author":'J.K. Rowling'  ,
-      "category":'wantToRead'
+      "shelf":'wantToRead'
   
   
       },
       {"image": 'url("http://books.google.com/books/content?id=pD6arNyKyi8C&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE70Rw0CCwNZh0SsYpQTkMbvz23npqWeUoJvVbi_gXla2m2ie_ReMWPl0xoU8Quy9fk0Zhb3szmwe8cTe4k7DAbfQ45FEzr9T7Lk0XhVpEPBvwUAztOBJ6Y0QPZylo4VbB7K5iRSk&source=gbs_api")', 
       "title":'The Hobbit',
       "author":'J.R.R. Tolkien'  ,
-      "category":'read'
+      "shelf":'read'
       },
       {"image": 'url("http://books.google.com/books/content?id=1q_xAwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE712CA0cBYP8VKbEcIVEuFJRdX1k30rjLM29Y-dw_qU1urEZ2cQ42La3Jkw6KmzMmXIoLTr50SWTpw6VOGq1leINsnTdLc_S5a5sn9Hao2t5YT7Ax1RqtQDiPNHIyXP46Rrw3aL8&source=gbs_api")', 
       "title":'Oh, the Places You\'ll Go!',
       "author":'Seuss' ,
-      "category":'read' 
+      "shelf":'read' 
       },
       {"image": 'url("http://books.google.com/books/content?id=32haAAAAMAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72yckZ5f5bDFVIf7BGPbjA0KYYtlQ__nWB-hI_YZmZ-fScYwFy4O_fWOcPwf-pgv3pPQNJP_sT5J_xOUciD8WaKmevh1rUR-1jk7g1aCD_KeJaOpjVu0cm_11BBIUXdxbFkVMdi&source=gbs_api")', 
       "title":'The Adventures of Tom Sawyer',
       "author":'Mark Twain'  ,
-      "category":'read'
+      "shelf":'read'
       }
   
     ],
     showSearchPage: false
   };
+  setthestate(books, showSearchPage, searchbooks){
+    this.setState({
+      books: books,
+      showSearchPage : showSearchPage,
+      searchbooks : searchbooks
+
+
+  });
+  }
     search(evt){
       (async() => {
         var books=  await BooksAPI.search(evt.target.value)
-        alert(books);
-        document.bb = books;
-        this.setState({
-            books: this.state.books,
-            showSearchPage : this.state.showSearchPage,
-            searchbooks : searchbooks
+        var searchbooks = await books;
+        console.log(searchbooks)
+        document.x= searchbooks
+        if (searchbooks && searchbooks.length > 0){
+          this.setState(state => ({
+            books : state.books,
+            searchbooks:searchbooks,
+            showSearchPage: state.showSearchPage
+          }));
+    
+          return;
+        this && this.setState({books:this.state.books , showSearchPage: this.state.showSearchPage,
+        searchbooks: searchbooks})
+        document.y = this;
+        
 
-
-        });
+        }
+        // this.setthestate(this.state.books, this.state.showSearchPage, searchbooks)
+      
       })()
   }
   constructor(){
     super();
-
-    (async() => {
+     (async() => {
          var bookspromise=    BooksAPI.getAll();
  
       var books = await bookspromise;
 
-      books.forEach(x=>{
-           
-          x.image =`url("${x.imageLinks.thumbnail}}")` ;
-         x.category = x.shelf;
-         x.author = x.authors[0];
-         for (var i =1; i < x.authors.length; i++){
-           x.author += ","+x.authors[i];
-         }
-    })
-        this.setState({
-         /**
-         * TODO: Instead of using this state variable to keep track of which page
-         * we're on, use the URL in the browser's address bar. This will ensure that
-         * users can use the browser's back and forward buttons to navigate between
-         * pages, as well as provide a good URL they can bookmark and share.
-         */
-    //defining the books list
+ 
+    //     this.setState({
+    //      /**
+    //      * TODO: Instead of using this state variable to keep track of which page
+    //      * we're on, use the URL in the browser's address bar. This will ensure that
+    //      * users can use the browser's back and forward buttons to navigate between
+    //      * pages, as well as provide a good URL they can bookmark and share.
+    //      */
+    // //defining the books list
+    //     books :books,
+       
+    //     showSearchPage: false
+    //   });
+      this.setState(state => ({
         books :books,
        
         showSearchPage: false
-      });
+      }));
 
 
 
@@ -111,12 +127,18 @@ class BooksApp extends React.Component {
   }
 
   // ]
-   
+   bookie = [{"title": ' the great one ' }, {"title": ' the best one '}]
   
   render() {
+
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
+        length is {this.state.searchbooks && this.state.books.searchbooks} <br/>
+<BookLI books={this.bookie}   />
+length is {this.state.searchbooks && this.state.books.searchbooks} <br/>
+
+
+         {this.state.showSearchPage ? (
           <div className="search-books">
             <div className="search-books-bar">
               <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
@@ -134,7 +156,11 @@ class BooksApp extends React.Component {
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid"></ol>
+              <ol className="books-grid">
+                  <BookLI books={this.state.searchbooks}   />
+
+
+              </ol>
             </div>
           </div>
         ) : (
@@ -151,19 +177,19 @@ class BooksApp extends React.Component {
                    <h2 className="bookshelf-title">Currently Reading</h2>
                    <div className="bookshelf-books">
                      <ol className="books-grid">
-                       {this.state.books.filter(x=>x.category=='currentlyReading').map(x=> 
+                       {this.state.books.filter(x=>x.shelf=='currentlyReading').map(x=> 
                          <li>
                          <div className="book">
                            <div className="book-top">
-                             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: x.image }}>
+                           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url("${x.imageLinks && x.imageLinks.thumbnail}}")` }}>
                              </div>
                              <div className="book-shelf-changer">
                                <select onChange={ (evt)=>
                                 {const val = evt.target.value;
-                                   var category = val.split('|');
-                                  const title = category[1];
-                                  category = category[0];
-                                      this.state.books.filter(x=>x.title == title)[0].category = category;
+                                   var shelf = val.split('|');
+                                  const title = shelf[1];
+                                  shelf = shelf[0];
+                                      this.state.books.filter(x=>x.title == title)[0].shelf = shelf;
                                       
                                       this.setState({books: this.state.books, showSearchPage: this.state.showSearchPage})
 
@@ -194,21 +220,21 @@ class BooksApp extends React.Component {
                    <h2 className="bookshelf-title">Want to Read</h2>
                    <div className="bookshelf-books">
                      <ol className="books-grid">
-                       {this.state.books.filter(x=>x.category=='wantToRead').map(x=> 
+                       {this.state.books.filter(x=>x.shelf=='wantToRead').map(x=> 
                          <li>
                          <div className="book">
                            <div className="book-top">
-                             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: x.image }}>
+                           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url("${x.imageLinks && x.imageLinks.thumbnail}}")` }}>
                              </div>
                              <div className="book-shelf-changer">
                                <select onChange={ (evt)=>
                                 {const val = evt.target.value;
-                                  var category = val.split('|');
+                                  var shelf = val.split('|');
  
-                                  const title = category[1];
+                                  const title = shelf[1];
 
-                                  category = category[0];
-                                   this.state. books.filter(x=>x.title === title)[0].category = category;
+                                  shelf = shelf[0];
+                                   this.state. books.filter(x=>x.title === title)[0].shelf = shelf;
                                    
                                     this.setState({books: this.state.books, showSearchPage: this.state.showSearchPage})
                                 }
@@ -238,19 +264,19 @@ class BooksApp extends React.Component {
                    <h2 className="bookshelf-title">Read</h2>
                    <div className="bookshelf-books">
                      <ol className="books-grid">
-                       {this.state.books.filter(x=>x.category=='read').map(x=> 
+                       {this.state.books.filter(x=>x.shelf=='read').map(x=> 
                          <li>
                          <div className="book">
                            <div className="book-top">
-                             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: x.image }}>
+                           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url("${x.imageLinks && x.imageLinks.thumbnail}}")` }}>
                              </div>
                              <div className="book-shelf-changer">
                                <select onChange={ (evt)=>
                                 {const val = evt.target.value;
-                                  var category = val.split('|');
-                                  const title = category[1];
-                                  category = category[0];
-                                  this.state. books.filter(x=>x.title === title)[0].category = category;
+                                  var shelf = val.split('|');
+                                  const title = shelf[1];
+                                  shelf = shelf[0];
+                                  this.state. books.filter(x=>x.title === title)[0].shelf = shelf;
 
 //set state with new books list after chaning state
                                     this.setState({books: this.state.books, showSearchPage: this.state.showSearchPage})
