@@ -12,7 +12,7 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-
+//defining the books list
     books : [
       {"image": 'url("https://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")', 
       "title":'To Kill a Mockingbird',
@@ -107,7 +107,7 @@ class BooksApp extends React.Component {
                                   const title = category[1];
                                   category = category[0];
                                       this.state.books.filter(x=>x.title == title)[0].category = category;
-                                      this.state.books = [...this.state.books]
+                                      
                                       this.setState({books: this.state.books, showSearchPage: this.state.showSearchPage})
 
                                      }
@@ -152,8 +152,7 @@ class BooksApp extends React.Component {
 
                                   category = category[0];
                                    this.state. books.filter(x=>x.title === title)[0].category = category;
-                                   this. state. books = [...this.state.books]
-                                   this. state.  books = this.state.books.map(x=>x);
+                                   
                                     this.setState({books: this.state.books, showSearchPage: this.state.showSearchPage})
                                 }
                               }>
@@ -194,9 +193,7 @@ class BooksApp extends React.Component {
                                   var category = val.split('|');
                                   const title = category[1];
                                   category = category[0];
-
-                                    this.state.books.filter(x=>x.title == title)[0].category = category;
-                                    this.state.books = [...this.state.books]
+//set state with new books list after chaning state
                                     this.setState({books: this.state.books, showSearchPage: this.state.showSearchPage})
 
                                 }
