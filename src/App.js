@@ -3,9 +3,7 @@ import React from 'react'
 import './App.css'
 import {useState} from 'react';
 class BooksApp extends React.Component {
- 
-  // ]
-    state = {
+  state = {
     /**
      * TODO: Instead of using this state variable to keep track of which page
      * we're on, use the URL in the browser's address bar. This will ensure that
@@ -13,7 +11,7 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
 //defining the books list
-    books : [
+    books :  [
       {"image": 'url("https://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")', 
       "title":'To Kill a Mockingbird',
       "author":'Haper Lee'  ,
@@ -55,6 +53,65 @@ class BooksApp extends React.Component {
     ],
     showSearchPage: false
   };
+    search(evt){
+      (async() => {
+        var books=  await BooksAPI.search(evt.target.value)
+        alert(books);
+        document.bb = books;
+        this.setState({
+            books: this.state.books,
+            showSearchPage : this.state.showSearchPage,
+            searchbooks : searchbooks
+
+
+        });
+      })()
+  }
+  constructor(){
+    super();
+
+    (async() => {
+         var bookspromise=    BooksAPI.getAll();
+ 
+      var books = await bookspromise;
+
+      books.forEach(x=>{
+           
+          x.image =`url("${x.imageLinks.thumbnail}}")` ;
+         x.category = x.shelf;
+         x.author = x.authors[0];
+         for (var i =1; i < x.authors.length; i++){
+           x.author += ","+x.authors[i];
+         }
+    })
+        this.setState({
+         /**
+         * TODO: Instead of using this state variable to keep track of which page
+         * we're on, use the URL in the browser's address bar. This will ensure that
+         * users can use the browser's back and forward buttons to navigate between
+         * pages, as well as provide a good URL they can bookmark and share.
+         */
+    //defining the books list
+        books :books,
+       
+        showSearchPage: false
+      });
+
+
+
+
+      })()
+
+
+      // document. allbooks =    BooksAPI.getAll();
+
+  //  var   = await this.all.json();
+    // console.log(allbooks);
+    // alert(allbooks);
+  }
+
+  // ]
+   
   
   render() {
     return (
@@ -72,7 +129,7 @@ class BooksApp extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by title or author"/>
+                <input type="text" onChange={this.search}  placeholder="Search by title or author"/>
 
               </div>
             </div>
@@ -193,6 +250,8 @@ class BooksApp extends React.Component {
                                   var category = val.split('|');
                                   const title = category[1];
                                   category = category[0];
+                                  this.state. books.filter(x=>x.title === title)[0].category = category;
+
 //set state with new books list after chaning state
                                     this.setState({books: this.state.books, showSearchPage: this.state.showSearchPage})
 
