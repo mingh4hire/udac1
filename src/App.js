@@ -1,9 +1,10 @@
 import React from 'react'
  import * as BooksAPI from './BooksAPI'
- import {BookLI} from './components/BookLI';
+  import BookLI from './components/BookLI';
 import './App.css'
 import {useState} from 'react';
 class BooksApp extends React.Component {
+  
   state = {
     /**
      * TODO: Instead of using this state variable to keep track of which page
@@ -63,51 +64,23 @@ class BooksApp extends React.Component {
 
   });
   }
-    search(evt){
-      (async() => {
-        var books=  await BooksAPI.search(evt.target.value)
-        var searchbooks = await books;
-        console.log(searchbooks)
-        document.x= searchbooks
-        if (searchbooks && searchbooks.length > 0){
-          this.setState(state => ({
-            books : state.books,
-            searchbooks:searchbooks,
-            showSearchPage: state.showSearchPage
-          }));
-    
-          return;
-        this && this.setState({books:this.state.books , showSearchPage: this.state.showSearchPage,
-        searchbooks: searchbooks})
-        document.y = this;
-        
-
-        }
-        // this.setthestate(this.state.books, this.state.showSearchPage, searchbooks)
-      
-      })()
+  searchbooks 
+  setsearchbooks
+  a 
+  a = 3;
+  b
+  app;
+  getthisapp(){
+    return this;
   }
   constructor(){
     super();
-     (async() => {
-         var bookspromise=    BooksAPI.getAll();
- 
-      var books = await bookspromise;
+      this.getthisapp.bind(this);
+      (async() => {
+        var bookspromise= BooksAPI.getAll();
 
- 
-    //     this.setState({
-    //      /**
-    //      * TODO: Instead of using this state variable to keep track of which page
-    //      * we're on, use the URL in the browser's address bar. This will ensure that
-    //      * users can use the browser's back and forward buttons to navigate between
-    //      * pages, as well as provide a good URL they can bookmark and share.
-    //      */
-    // //defining the books list
-    //     books :books,
-       
-    //     showSearchPage: false
-    //   });
-      this.setState(state => ({
+        var books = await bookspromise;
+       this.setState(state => ({
         books :books,
        
         showSearchPage: false
@@ -118,25 +91,24 @@ class BooksApp extends React.Component {
 
       })()
 
+   } 
+  search(evt){
+      var app = this.getthisapp()
+         var bookspromise= BooksAPI.search(evt.target.value).then(books=>
+          app.  setState(state=> { return {"searchbooks" : books,
+          "books" : state.books , "showSearchPage": state.showSearchPage}})
 
-      // document. allbooks =    BooksAPI.getAll();
+         );
 
-  //  var   = await this.all.json();
-    // console.log(allbooks);
-    // alert(allbooks);
+         
+       
   }
-
-  // ]
-   bookie = [{"title": ' the great one ' }, {"title": ' the best one '}]
-  
+   
   render() {
 
     return (
       <div className="app">
-        length is {this.state.searchbooks && this.state.books.searchbooks} <br/>
-<BookLI books={this.bookie}   />
-length is {this.state.searchbooks && this.state.books.searchbooks} <br/>
-
+ 
 
          {this.state.showSearchPage ? (
           <div className="search-books">
@@ -149,9 +121,24 @@ length is {this.state.searchbooks && this.state.books.searchbooks} <br/>
                   https:github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
 
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
+                  you don't find a specific author or title. Every search is limited by search terms .
                 */}
-                <input type="text" onChange={this.search}  placeholder="Search by title or author"/>
+                <input type="text" onChange={ (evt)=> {
+                  
+                    
+                    var app = this
+                    var bookspromise= BooksAPI.search(evt.target.value).then(books=>
+                     app.  setState(state=> { return {"searchbooks" : books,
+                     "books" : state.books , "showSearchPage": state.showSearchPage}})           
+                    );
+           
+           
+                
+                }
+                  
+
+
+                }  placeholder="Search by title or author"/>
 
               </div>
             </div>
@@ -161,6 +148,25 @@ length is {this.state.searchbooks && this.state.books.searchbooks} <br/>
 
 
               </ol>
+              <ol className="books-grid">
+                       {this.state.searchbooks && Object.prototype.toString.call(this.state.searchbooks) == '[object Array]' && this.state.searchbooks.map(x=> 
+                         <li>
+                         <div className="book">
+                           <div className="book-top">
+                           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url("${x.imageLinks && x.imageLinks.thumbnail}}")` }}>
+                             </div>
+                
+                           </div>
+                           <div className="book-title">{x.title} </div>
+                           <div className="book-authors">{x.author}</div>
+                         </div>
+                       </li>
+                       
+                       
+                       )}
+                 
+                        
+                     </ol>
             </div>
           </div>
         ) : (
@@ -191,7 +197,7 @@ length is {this.state.searchbooks && this.state.books.searchbooks} <br/>
                                   shelf = shelf[0];
                                       this.state.books.filter(x=>x.title == title)[0].shelf = shelf;
                                       
-                                      this.setState({books: this.state.books, showSearchPage: this.state.showSearchPage})
+                                      this.setState(state => ({books: this.state.books, showSearchPage: state.showSearchPage, searchbooks:state.searchbooks}))
 
                                      }
                               }>
@@ -236,8 +242,7 @@ length is {this.state.searchbooks && this.state.books.searchbooks} <br/>
                                   shelf = shelf[0];
                                    this.state. books.filter(x=>x.title === title)[0].shelf = shelf;
                                    
-                                    this.setState({books: this.state.books, showSearchPage: this.state.showSearchPage})
-                                }
+                                   this.setState(state => ({books: this.state.books, showSearchPage: state.showSearchPage, searchbooks:state.searchbooks}))                                }
                               }>
                                  <option value="move"  >Move to...</option>
                                  <option value={'currentlyReading|'+x.title}>Currently Reading</option>
@@ -279,8 +284,7 @@ length is {this.state.searchbooks && this.state.books.searchbooks} <br/>
                                   this.state. books.filter(x=>x.title === title)[0].shelf = shelf;
 
 //set state with new books list after chaning state
-                                    this.setState({books: this.state.books, showSearchPage: this.state.showSearchPage})
-
+                                  this.setState(state => ({books: this.state.books, showSearchPage: state.showSearchPage, searchbooks:state.searchbooks}))
                                 }
                               }>
                                  <option   value="move"  >Move to...</option>
@@ -312,7 +316,10 @@ length is {this.state.searchbooks && this.state.books.searchbooks} <br/>
 
 
             <div className="open-search">
-              <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+              <button onClick={() => {          this.setState(state=> { return {"searchbooks" : state.searchbooks,
+               "books" : state.books , "showSearchPage": true}})
+  console.log() }}   
+                 >Add a book</button>
             </div>
           </div>
         )}

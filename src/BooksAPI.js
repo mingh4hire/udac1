@@ -41,4 +41,7 @@ export const search = (query) =>
     },
     body: JSON.stringify({ query })
   }).then(res => res.json())
-    .then(data => data.books)
+    .then(data => {
+       return data.books
+      
+    })
