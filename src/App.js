@@ -66,9 +66,9 @@ class BooksApp extends React.Component {
   }
   searchbooks 
   setsearchbooks
-  a 
-  a = 3;
-  b
+ 
+  
+  
   app;
   getthisapp(){
     return this;
@@ -184,7 +184,7 @@ class BooksApp extends React.Component {
                    <div className="bookshelf-books">
                      <ol className="books-grid">
                        {this.state.books.filter(x=>x.shelf=='currentlyReading').map(x=> 
-                         <li>
+                         <li key={x.title}>
                          <div className="book">
                            <div className="book-top">
                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url("${x.imageLinks && x.imageLinks.thumbnail}}")` }}>
@@ -318,7 +318,7 @@ class BooksApp extends React.Component {
             <div className="open-search">
               <button onClick={() => {          this.setState(state=> { return {"searchbooks" : state.searchbooks,
                "books" : state.books , "showSearchPage": true}})
-  console.log() }}   
+  }}   
                  >Add a book</button>
             </div>
           </div>
