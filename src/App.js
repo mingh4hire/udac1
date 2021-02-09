@@ -185,25 +185,7 @@ class BooksApp extends React.Component {
                  
                         
                      </ol>
-              <ol className="books-grid">
-                       {this.state.searchbooks && Object.prototype.toString.call(this.state.searchbooks) == '[object Array]' && this.state.searchbooks.map(x=> 
-                         <li>
-                         <div className="book">
-                           <div className="book-top">
-                           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url("${x.imageLinks && x.imageLinks.thumbnail}}")` }}>
-                             </div>
-                
-                           </div>
-                           <div className="book-title">{x.title} </div>
-                           <div className="book-authors">{x.authors && x.authors.reduce((x,y)=> x+','+y)}</div>
-                         </div>
-                       </li>
-                       
-                       
-                       )}
-                 
-                        
-                     </ol>
+         
             </div>
           </div>
         ) : (
@@ -243,8 +225,8 @@ class BooksApp extends React.Component {
 
                                      }
                               }>
-                                 <option value="move"  >Move to...</option>
-                                 <option  value={'currentlyReading|'+x.title}   >Currently Reading</option>
+                                 <option value="move" disabled >Move to...</option>
+                                 <option  value={'currentlyReading|'+x.title} selected  >Currently Reading</option>
                                  <option value={'wantToRead|'+x.title}>Want to Read</option>
                                  <option value={'read|'+x.title}>Read</option>
                                  <option value={'none|'+x.title}>None</option>
@@ -292,9 +274,9 @@ class BooksApp extends React.Component {
                         
                         
                         }>
-                                 <option value="move"  >Move to...</option>
+                                 <option value="move" disabled  >Move to...</option>
                                  <option value={'currentlyReading|'+x.title}>Currently Reading</option>
-                                 <option   value={'wantToRead|'+x.title}>Want to Read</option>
+                                 <option   value={'wantToRead|'+x.title } selected>Want to Read</option>
                                  <option value={'read|'+x.title}>Read</option>
                                  <option value={'none|'+x.title}>None</option>
                                </select>
@@ -339,10 +321,10 @@ class BooksApp extends React.Component {
 //set state with new books list after chaning state
                                  }
                               }>
-                                 <option   value="move"  >Move to...</option>
+                                 <option   value="move"  disabled>Move to...</option>
                                  <option value={'currentlyReading|'+x.title}>Currently Reading</option>
                                  <option value={'wantToRead|'+x.title}>Want to Read</option>
-                                 <option    value={'read|'+x.title}>Read</option>
+                                 <option    value={'read|'+x.title } selected>Read</option>
                                  <option value={'none|'+x.title}>None</option>
                                </select>
                              </div>
