@@ -143,11 +143,48 @@ class BooksApp extends React.Component {
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid">
-                  <BookLI books={this.state.searchbooks}   />
+            <ol className="books-grid">
+                       {this.state.searchbooks && this.state.searchbooks.map(x=> 
+                         <li key={x.id}>
+                         <div className="book">
+                           <div className="book-top">
+                           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url("${x.imageLinks && x.imageLinks.thumbnail}}")` }}>
+                             </div>
+                             <div className="book-shelf-changer">
+                               <select onChange={ (evt)=>
+                                {const val = evt.target.value;
+                                   var shelf = val.split('|');
+                                  const title = shelf[1];
+                                  shelf = shelf[0];
 
+                                   var app = this;
+                                    (async()=>{
+                                      await BooksAPI.update(x, shelf);
+                                      var books =  await BooksAPI.getAll();
+                                      app.setState(state=> ({books:books, searchbooks:state.searchbooks, showSearchPage:state.showSearchPage}))
+                                    })()
+                                  
 
-              </ol>
+                                     }
+                              }>
+                                 <option value="move"  >Move to...</option>
+                                 <option  value={'currentlyReading|'+x.title}   >Currently Reading</option>
+                                 <option value={'wantToRead|'+x.title}>Want to Read</option>
+                                 <option value={'read|'+x.title}>Read</option>
+                                 <option value={'none|'+x.title}>None</option>
+                               </select>
+                             </div>
+                           </div>
+                           <div className="book-title">{x.title} </div>
+                           <div className="book-authors">{x.authors && x.authors.reduce((x,y)=> x+','+y)}</div>
+                         </div>
+                       </li>
+                       
+                       
+                       )}
+                 
+                        
+                     </ol>
               <ol className="books-grid">
                        {this.state.searchbooks && Object.prototype.toString.call(this.state.searchbooks) == '[object Array]' && this.state.searchbooks.map(x=> 
                          <li>
@@ -158,7 +195,7 @@ class BooksApp extends React.Component {
                 
                            </div>
                            <div className="book-title">{x.title} </div>
-                           <div className="book-authors">{x.author}</div>
+                           <div className="book-authors">{x.authors && x.authors.reduce((x,y)=> x+','+y)}</div>
                          </div>
                        </li>
                        
@@ -184,7 +221,7 @@ class BooksApp extends React.Component {
                    <div className="bookshelf-books">
                      <ol className="books-grid">
                        {this.state.books.filter(x=>x.shelf=='currentlyReading').map(x=> 
-                         <li key={x.title}>
+                         <li key={x.id + x.title}>
                          <div className="book">
                            <div className="book-top">
                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url("${x.imageLinks && x.imageLinks.thumbnail}}")` }}>
@@ -195,9 +232,14 @@ class BooksApp extends React.Component {
                                    var shelf = val.split('|');
                                   const title = shelf[1];
                                   shelf = shelf[0];
-                                      this.state.books.filter(x=>x.title == title)[0].shelf = shelf;
-                                      
-                                      this.setState(state => ({books: this.state.books, showSearchPage: state.showSearchPage, searchbooks:state.searchbooks}))
+
+                                   var app = this;
+                                    (async()=>{
+                                      await BooksAPI.update(x, shelf);
+                                      var books =  await BooksAPI.getAll();
+                                      app.setState(state=> ({books:books, searchbooks:state.searchbooks, showSearchPage:state.showSearchPage}))
+                                    })()
+                                  
 
                                      }
                               }>
@@ -210,7 +252,7 @@ class BooksApp extends React.Component {
                              </div>
                            </div>
                            <div className="book-title">{x.title} </div>
-                           <div className="book-authors">{x.author}</div>
+                           <div className="book-authors">{x.authors && x.authors.reduce((x,y)=> x+','+y)}</div>
                          </div>
                        </li>
                        
@@ -240,10 +282,16 @@ class BooksApp extends React.Component {
                                   const title = shelf[1];
 
                                   shelf = shelf[0];
-                                   this.state. books.filter(x=>x.title === title)[0].shelf = shelf;
-                                   
-                                   this.setState(state => ({books: this.state.books, showSearchPage: state.showSearchPage, searchbooks:state.searchbooks}))                                }
-                              }>
+                                  var app = this;
+                                  (async()=>{
+                                    await BooksAPI.update(x, shelf);
+                                    var books =  await BooksAPI.getAll();
+                                    app.setState(state=> ({books:books, searchbooks:state.searchbooks, showSearchPage:state.showSearchPage}))
+                                  })()
+                                }
+                        
+                        
+                        }>
                                  <option value="move"  >Move to...</option>
                                  <option value={'currentlyReading|'+x.title}>Currently Reading</option>
                                  <option   value={'wantToRead|'+x.title}>Want to Read</option>
@@ -253,7 +301,7 @@ class BooksApp extends React.Component {
                              </div>
                            </div>
                            <div className="book-title">{x.title} </div>
-                           <div className="book-authors">{x.author}</div>
+                           <div className="book-authors">{x.authors && x.authors.reduce((x,y)=> x+','+y)}</div>
                          </div>
                        </li>
                        
@@ -281,11 +329,15 @@ class BooksApp extends React.Component {
                                   var shelf = val.split('|');
                                   const title = shelf[1];
                                   shelf = shelf[0];
-                                  this.state. books.filter(x=>x.title === title)[0].shelf = shelf;
+                                  var app = this;
+                                  (async()=>{
+                                  await BooksAPI.update(x, shelf);
+                                  var books =  await BooksAPI.getAll();
+                                  app.setState(state=> ({books:books, searchbooks:state.searchbooks, showSearchPage:state.showSearchPage}))
+                                })()
 
 //set state with new books list after chaning state
-                                  this.setState(state => ({books: this.state.books, showSearchPage: state.showSearchPage, searchbooks:state.searchbooks}))
-                                }
+                                 }
                               }>
                                  <option   value="move"  >Move to...</option>
                                  <option value={'currentlyReading|'+x.title}>Currently Reading</option>
@@ -296,7 +348,7 @@ class BooksApp extends React.Component {
                              </div>
                            </div>
                            <div className="book-title">{x.title} </div>
-                           <div className="book-authors">{x.author}</div>
+                           <div className="book-authors">{x.authors && x.authors.reduce((x,y)=> x+','+y)}</div>
                          </div>
                        </li>
                        
